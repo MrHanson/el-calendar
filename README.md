@@ -1,6 +1,6 @@
 # el-calendar
 
-> element-ui style calendar widget
+> element-ui style calendar widget, typescript friendly
 
 ![demonstration](./demonstration.png)
 
