@@ -2,6 +2,8 @@
 
 > element-ui style calendar widget
 
+![demonstration](./demonstration.png)
+
 ## [Try it](https://mrhanson.github.io/el-calendar/)
 
 ## Install
