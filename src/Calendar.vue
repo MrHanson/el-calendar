@@ -7,7 +7,9 @@
       <div class="arrow arrow-right" @click="toNextMonth"></div>
     </div>
     <div class="week-text">
-      <div class="date-item date-item__week" v-for="text in weekText" :key="text">{{ text }}</div>
+      <div v-for="text in weekText" :key="text" class="date-item date-item__week">
+        {{ text }}
+      </div>
     </div>
     <div>
       <div
@@ -25,8 +27,9 @@
               item.val === `${value.getFullYear()}-${value.getMonth() + 1}-${value.getDate()}`,
             'is-marked': item.marked
           }"
-          >{{ item.date }}</span
         >
+          {{ item.date }}
+        </span>
       </div>
     </div>
     <div class="comment">
@@ -110,6 +113,15 @@ export default {
     }
   },
 
+  watch: {
+    markArr: {
+      deep: true,
+      handler() {
+        this._getDateArr()
+      }
+    }
+  },
+
   created() {
     // set current moment
     this.curYear = this.value.getFullYear()
@@ -169,8 +181,6 @@ export default {
         return []
       }
 
-      const toDate = this.today.getDate()
-
       let tarMonth = this.curMonth
       let tarYear = this.curYear
       if (monthFlag === 0) {
@@ -225,8 +235,8 @@ export default {
 
 <style>
 .calendar {
-  width: 400px;
   box-sizing: border-box;
+  width: 400px;
   padding: 18px;
   color: #000;
 }
@@ -246,41 +256,42 @@ export default {
   display: inline-block;
   width: 0;
   height: 0;
-  border-top: 8px solid transparent;
-  border-bottom: 8px solid transparent;
   cursor: pointer;
   user-select: none;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
 }
 .arrow-left {
-  border-left: 8px solid transparent;
-  border-right: 8px solid #409eff;
   margin-right: 16px;
+  border-right: 8px solid #409eff;
+  border-left: 8px solid transparent;
 }
 
 .arrow-right {
+  margin-left: 16px;
   border-right: 8px solid transparent;
   border-left: 8px solid #409eff;
-  margin-left: 16px;
 }
 
 .calendar .date-item {
-  box-sizing: border-box;
   position: relative;
+  box-sizing: border-box;
   display: inline-block;
   width: 52px;
-  line-height: 52px;
   height: 52px;
-  text-align: center;
+  line-height: 52px;
   color: #c0c4cc;
+  text-align: center;
   user-select: none;
 }
 
 .calendar .date-item span {
+  box-sizing: content-box;
   display: inline-block;
-  padding: 8px;
-  margin: 6px;
   width: 20px;
   height: 20px;
+  padding: 8px;
+  margin: 6px;
 }
 
 .calendar .date-item__week {
@@ -292,9 +303,9 @@ export default {
 }
 
 .calendar .current-month:hover {
+  cursor: pointer;
   background-color: #f2f8fe;
   border-radius: 50%;
-  cursor: pointer;
 }
 
 .calendar .today {
@@ -302,19 +313,19 @@ export default {
 }
 
 .calendar .is-selected {
-  background-color: #409eff !important;
   color: #fff !important;
+  background-color: #409eff !important;
   border-radius: 50%;
 }
 
 .calendar .is-marked::after {
-  content: '';
   position: absolute;
-  border-radius: 50%;
-  border: 1.5px solid #000;
+  bottom: 10px;
   left: 50%;
+  content: '';
+  border: 1.5px solid #000;
+  border-radius: 50%;
   transform: translateX(-50%);
-  bottom: 5px;
 }
 
 .calendar .comment {

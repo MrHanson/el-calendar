@@ -1,6 +1,8 @@
 # el-calendar
 
-> element-ui style calendar widget, typescript friendly
+element-ui style calendar widget, typescript friendly
+
+[![npm](https://img.shields.io/npm/v/@mrhanson/el-calendar.svg)](https://www.npmjs.com/package/@mrhanson/el-calendar) [![npm bundle size](https://img.shields.io/bundlephobia/min/@mrhanson/el-calendar?style=plastic)](https://www.npmjs.com/package/@mrhanson/el-calendar) [![npm](https://img.shields.io/npm/l/@mrhanson/el-calendar.svg)](https://www.npmjs.com/package/@mrhanson/el-calendar)
 
 ![demonstration](./demonstration.PNG)
 
