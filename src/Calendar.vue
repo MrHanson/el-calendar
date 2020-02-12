@@ -14,7 +14,7 @@
         v-for="(item, j) in monthArr"
         :key="'cur' + j"
         class="date-item"
-        @click="() => handleItemSelect(item)"
+        @click="() => _handleItemSelect(item)"
       >
         <span
           :class="{
@@ -121,6 +121,12 @@ export default {
   },
 
   methods: {
+    backToToday() {
+      this.curYear = this.today.getFullYear()
+      this.curMonth = this.today.getMonth() + 1
+      this.$emit('input', new Date(this.curYear, this.curMonth - 1, this.today.getDate()))
+      this._updateMonthArr()
+    },
     toPreMonth() {
       if (this.curMonth === 1) {
         this.curYear = this.curYear - 1
@@ -141,8 +147,24 @@ export default {
       this._updateMonthArr()
       this.$emit('nextmonth')
     },
+    toSpecificDate(year, month, date) {
+      this.curYear = year
+      this.curMonth = month
+      this.$emit('input', new Date(year, month - 1, date))
+    },
+    _handleItemSelect(item) {
+      if (item.monthFlag === 1) {
+        this.$emit('input', new Date(this.curYear, this.curMonth - 1, item.date))
+      } else if (item.monthFlag === 0) {
+        this.toPreMonth()
+        this.$emit('input', new Date(this.curYear, this.curMonth - 1, item.date))
+      } else {
+        this.toNextMonth()
+        this.$emit('input', new Date(this.curYear, this.curMonth - 1, item.date))
+      }
+    },
     // monthFlag: 0 previous month, 1 current month, 2 next month
-    getDateArr(beginDate = 1, endDate = 31, monthFlag = 1) {
+    _getDateArr(beginDate = 1, endDate = 31, monthFlag = 1) {
       if (beginDate > endDate) {
         return []
       }
@@ -175,16 +197,6 @@ export default {
         isToday: this._getDateStr(this.today) === `${tarYear}-${tarMonth}-${index + beginDate}`
       }))
     },
-    handleItemSelect(item) {
-      if (item.monthFlag === 1) {
-        const value = new Date(this.curYear, this.curMonth - 1, item.date)
-        this.$emit('input', value)
-      } else if (item.monthFlag === 0) {
-        this.toPreMonth()
-      } else {
-        this.toNextMonth()
-      }
-    },
     _updateMonthArr() {
       let maxDateOfPreMonth
       if (this.curMonth === 1) {
@@ -193,13 +205,13 @@ export default {
         maxDateOfPreMonth = getMonthMaxDate(this.curYear, this.curMonth - 1)
       }
       const firstDayOfCurMonth = getDayOfWeek(this.curYear, this.curMonth, 1)
-      const preMonthArr = this.getDateArr(
+      const preMonthArr = this._getDateArr(
         maxDateOfPreMonth - firstDayOfCurMonth + 1,
         maxDateOfPreMonth,
         0
       )
-      const curMonthArr = this.getDateArr(1, getMonthMaxDate(this.curYear, this.curMonth), 1)
-      const nextMonthArr = this.getDateArr(1, getMonthMaxDate(this.curYear, this.curMonth + 1), 2)
+      const curMonthArr = this._getDateArr(1, getMonthMaxDate(this.curYear, this.curMonth), 1)
+      const nextMonthArr = this._getDateArr(1, getMonthMaxDate(this.curYear, this.curMonth + 1), 2)
       const result = preMonthArr.concat(curMonthArr).concat(nextMonthArr)
       // 6 line max: 6 * 7 = 42
       this.monthArr = result.slice(0, 42)
@@ -255,16 +267,20 @@ export default {
   box-sizing: border-box;
   position: relative;
   display: inline-block;
-  width: 48px;
-  line-height: 48px;
-  padding: 4px;
+  width: 52px;
+  line-height: 52px;
+  height: 52px;
   text-align: center;
   color: #c0c4cc;
   user-select: none;
 }
 
 .calendar .date-item span {
+  display: inline-block;
   padding: 8px;
+  margin: 6px;
+  width: 20px;
+  height: 20px;
 }
 
 .calendar .date-item__week {

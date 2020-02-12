@@ -1,6 +1,16 @@
 <template>
   <div id="app">
-    <Calendar v-model="today" comment="*some comment"></Calendar>
+    <Calendar ref="calendar" v-model="today" comment="*some comment"></Calendar>
+    <div class="operation">
+      <div class="row">
+        <button @click="backToToday">Back to today</button>
+        <button @click="toPreMonth">To previous month</button>
+        <button @click="toNextMonth">To next month</button>
+      </div>
+      <div class="row">
+        Selected date: <span style="color: red">{{ today }}</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -13,12 +23,20 @@ export default {
       today: new Date()
     }
   },
-  watch: {
-    today(val) {
-      console.log(val)
+
+  components: { Calendar },
+
+  methods: {
+    backToToday() {
+      this.$refs['calendar'].backToToday()
+    },
+    toPreMonth() {
+      this.$refs['calendar'].toPreMonth()
+    },
+    toNextMonth() {
+      this.$refs['calendar'].toNextMonth()
     }
-  },
-  components: { Calendar }
+  }
 }
 </script>
 
@@ -33,8 +51,15 @@ body {
 }
 #app {
   position: relative;
-  width: 60%;
+  width: 70%;
   margin: 0 auto;
   padding: 8px;
+  display: flex;
+}
+.operation {
+  padding: 16px 0;
+}
+.operation .row {
+  margin: 16px 0;
 }
 </style>
