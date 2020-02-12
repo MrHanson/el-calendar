@@ -1,6 +1,10 @@
 {
   "name": "@mrhanson/el-calendar",
   "version": "0.1.0",
+  "description": "element-ui style calendar widget, typescript friendly",
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "release/el-calendar.common.js",
   "types": "types.d.ts",
   "files": [
