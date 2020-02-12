@@ -2,6 +2,7 @@
   "name": "@mrhanson/el-calendar",
   "version": "0.1.0",
   "main": "release/el-calendar.common.js",
+  "types": "types.d.ts",
   "files": [
     "release",
     "types.d.ts"
