@@ -83,29 +83,17 @@ Selected Date value
 
 ### premonth
 
-emit when move to previous month
+emit when vision moves to previous month
 
 ### nextmonth
 
-emit when move to next month
+emit when vision moves to next month
 
 ## Methods
 
-### backToToday
-
-set value & month visision back to today
-
-### toPreMonth
-
-set vision to previous month
-
-### toNextMonth
-
-set vision to previous month
-
-### toSpecificDate
-
-- paramters
-  - year: integer
-  - month: integer
-  - date: integer
+| Methods                           | Params                                               | Description                              |
+| --------------------------------- | ---------------------------------------------------- | ---------------------------------------- |
+| backToToday()                     |                                                      | set value & month visision back to today |
+| toPreMonth()                      |                                                      | set vision to previous month             |
+| toNextMonth()                     |                                                      | set vision to previous month             |
+| toSpecificDate(year, month, date) | year: number(integer), month: integer, date, integer |                                          |

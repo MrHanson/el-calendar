@@ -1,13 +1,25 @@
 {
   "name": "@mrhanson/el-calendar",
   "version": "0.1.0",
-  "main": "index.js",
+  "main": "release/el-calendar.common.js",
+  "files": [
+    "release",
+    "types.d.ts"
+  ],
   "license": "MIT",
   "scripts": {
     "dev": "parcel ./src/index.html --out-dir docs",
     "build-demo": "rimraf docs && parcel build ./src/index.html --out-dir docs",
     "release": "rollup --config",
     "release:report": "cross-env REPORT=true rollup --config"
+  },
+  "author": "mrhanson<chihanghanson@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MrHanson/el-calendar.git"
+  },
+  "bugs": {
+    "url": "https://github.com/MrHanson/el-calendar/issues"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^7.1.1",
