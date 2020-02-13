@@ -116,8 +116,9 @@ export default {
   watch: {
     markArr: {
       deep: true,
+      immediate: true,
       handler() {
-        this._getDateArr()
+        this._updateMonthArr()
       }
     }
   },
@@ -147,7 +148,7 @@ export default {
         this.curMonth = this.curMonth - 1
       }
       this._updateMonthArr()
-      this.$emit('premonth')
+      this.$emit('premonth', { year: this.curYear, month: this.curMonth })
     },
     toNextMonth() {
       if (this.curMonth === 12) {
@@ -157,7 +158,7 @@ export default {
         this.curMonth = this.curMonth + 1
       }
       this._updateMonthArr()
-      this.$emit('nextmonth')
+      this.$emit('nextmonth', { year: this.curYear, month: this.curMonth })
     },
     toSpecificDate(year, month, date) {
       this.curYear = year
@@ -222,9 +223,12 @@ export default {
       )
       const curMonthArr = this._getDateArr(1, getMonthMaxDate(this.curYear, this.curMonth), 1)
       const nextMonthArr = this._getDateArr(1, getMonthMaxDate(this.curYear, this.curMonth + 1), 2)
-      const result = preMonthArr.concat(curMonthArr).concat(nextMonthArr)
+
       // 6 line max: 6 * 7 = 42
-      this.monthArr = result.slice(0, 42)
+      this.monthArr = preMonthArr
+        .concat(curMonthArr)
+        .concat(nextMonthArr)
+        .slice(0, 42)
     },
     _getDateStr(date) {
       return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
