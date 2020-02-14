@@ -1,0 +1,128 @@
+.calendar {
+  box-sizing: border-box;
+  width: 400px;
+  padding: 18px;
+  color: #000;
+}
+
+.calendar span {
+  font-size: 16px;
+  line-height: 16px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.calendar .banner {
+  font-size: 0;
+  line-height: 16px;
+  text-align: center;
+}
+.arrow {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+}
+.arrow-left {
+  margin-right: 16px;
+  border-right: 8px solid #409eff;
+  border-left: 8px solid transparent;
+}
+
+.arrow-right {
+  margin-left: 16px;
+  border-right: 8px solid transparent;
+  border-left: 8px solid #409eff;
+}
+
+.calendar .date-item {
+  position: relative;
+  box-sizing: border-box;
+  display: inline-block;
+  width: 52px;
+  height: 52px;
+  line-height: 52px;
+  color: #c0c4cc;
+  text-align: center;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.calendar .date-item span {
+  box-sizing: content-box;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  padding: 8px;
+  margin: 6px;
+}
+
+.calendar .date-item__week {
+  color: #000 !important;
+}
+
+.calendar .current-month {
+  color: #000 !important;
+}
+
+.calendar .current-month:hover {
+  cursor: pointer;
+  background-color: #f2f8fe;
+  border-radius: 50%;
+}
+
+.calendar .today {
+  color: #409eff !important;
+}
+
+.calendar .is-selected {
+  color: #fff !important;
+  background-color: #409eff !important;
+  border-radius: 50%;
+}
+
+.calendar .is-marked::after {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  content: '';
+  border: 1.5px solid #000;
+  border-radius: 50%;
+  transform: translateX(-50%);
+}
+
+.calendar .comment {
+  padding: 16px;
+  color: #c0c4cc;
+}
+html,
+body {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+#app {
+  position: relative;
+  width: 70%;
+  margin: 0 auto;
+  padding: 8px;
+  display: flex;
+}
+.operation {
+  padding: 16px 0;
+}
+.operation .row {
+  margin: 16px 0;
+}

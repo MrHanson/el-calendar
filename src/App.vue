@@ -6,6 +6,7 @@
         <button @click="backToToday">Back to today</button>
         <button @click="toPreMonth">To previous month</button>
         <button @click="toNextMonth">To next month</button>
+        <button @click="toSpecificDate">To 2019/07/01</button>
       </div>
       <div class="row">
         Selected date: <span style="color: red">{{ today }}</span>
@@ -24,6 +25,12 @@ export default {
     }
   },
 
+  watch: {
+    today(val) {
+      console.log(val)
+    }
+  },
+
   components: { Calendar },
 
   methods: {
@@ -35,6 +42,9 @@ export default {
     },
     toNextMonth() {
       this.$refs['calendar'].toNextMonth()
+    },
+    toSpecificDate() {
+      this.$refs['calendar'].toSpecificDate(2019, 7, 1)
     }
   }
 }

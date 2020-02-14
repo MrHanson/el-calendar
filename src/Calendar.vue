@@ -64,6 +64,10 @@ function getDayOfWeek(year, month, date) {
   return new Date(year, month - 1, date).getDay()
 }
 
+function isNaNs(...args) {
+  return Array.prototype.map.call(args, item => isNaN(item))
+}
+
 export default {
   name: 'Calendar',
 
@@ -91,11 +95,7 @@ export default {
     // Notice：markArr为boolean数组，长度必须与当前月最大日相等
     markArr: {
       type: Array,
-      default: () => {
-        const date = new Date()
-        const len = getMonthMaxDate(date.getFullYear(), date.getMonth() + 1)
-        return new Array(len).fill(false)
-      }
+      default: () => []
     },
     comment: {
       type: String,
@@ -161,9 +161,16 @@ export default {
       this.$emit('nextmonth', { year: this.curYear, month: this.curMonth })
     },
     toSpecificDate(year, month, date) {
-      this.curYear = year
-      this.curMonth = month
-      this.$emit('input', new Date(year, month - 1, date))
+      // v0.1.2 fix bug: params of toSpecificDate must be integer
+      const intYear = parseInt(year)
+      const intMonth = parseInt(month)
+      const intDate = parseInt(date)
+      if (isNaNs(intYear, intMonth, intDate).some(item => item === true)) return
+
+      this.curYear = intYear
+      this.curMonth = intMonth
+      this._updateMonthArr()
+      this.$emit('input', new Date(intYear, intMonth - 1, intDate))
     },
     _handleItemSelect(item) {
       if (item.monthFlag === 1) {
