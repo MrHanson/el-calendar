@@ -71,8 +71,10 @@ Selected Date value
 
 ### markArr
 
-- type: Array
-- default: falsly array with length of current month's max date base on prop `today`
+show mark under date or not
+
+- type: Array<boolean>
+- default: `[]`
 
 > Notice: The length of `markArr` must be same as the value of current month's max date
 
@@ -93,9 +95,9 @@ emit when vision moves to next month
 
 ## Methods
 
-| Methods                           | Params                                               | Description                              |
-| --------------------------------- | ---------------------------------------------------- | ---------------------------------------- |
-| backToToday()                     |                                                      | set value & month visision back to today |
-| toPreMonth()                      |                                                      | set vision to previous month             |
-| toNextMonth()                     |                                                      | set vision to previous month             |
-| toSpecificDate(year, month, date) | year: number(integer), month: integer, date, integer |                                          |
+| Methods                           | Params                                          | Description                              |
+| --------------------------------- | ----------------------------------------------- | ---------------------------------------- |
+| backToToday()                     |                                                 | set value & month visision back to today |
+| toPreMonth()                      |                                                 | set vision to previous month             |
+| toNextMonth()                     |                                                 | set vision to previous month             |
+| toSpecificDate(year, month, date) | year: `number`, month: `number`, date: `number` |                                          |
