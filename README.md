@@ -45,7 +45,7 @@ yarn add @mrhanson/el-calendar
 ### value/v-model
 
 - type: Date
-- default: `[]`
+- default: `new Date()`
 
 Selected Date value
 
