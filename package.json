@@ -13,8 +13,8 @@
   ],
   "license": "MIT",
   "scripts": {
-    "dev": "parcel ./src/index.html --out-dir docs",
-    "build-demo": "rimraf docs && parcel build ./src/index.html --out-dir docs",
+    "dev": "parcel ./dev/index.html --out-dir docs",
+    "build-demo": "rimraf docs && parcel build ./dev/index.html --out-dir docs",
     "release": "rollup --config",
     "release:report": "cross-env REPORT=true rollup --config"
   },
