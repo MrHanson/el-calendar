@@ -18,6 +18,8 @@ npm i @mrhanson/el-calendar
 yarn add @mrhanson/el-calendar
 ```
 
+## [Changelog](https://github.com/MrHanson/el-calendar/releases)
+
 ## Usage
 
 ```html
