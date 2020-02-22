@@ -150,11 +150,13 @@
 }
 
 /* pane--month relevant */
-.calendar .pane--month {
+.calendar .pane--month,
+.calendar .pane--year {
   margin: 16px;
   border-top: 1px solid #e7e6e6;
 }
-.calendar .pane--month .month-item {
+.calendar .pane--month .month-item,
+.calendar .pane--year .year-item {
   display: inline-block;
   box-sizing: border-box;
   width: 25%;
@@ -164,20 +166,14 @@
   color: #000;
   cursor: pointer;
 }
-.calendar .pane--month .month-item:hover {
+.calendar .pane--month .month-item:hover,
+.calendar .pane--year .year-item:hover {
   color: #409eff;
 }
-.calendar .pane--month .month-item--selected {
+.calendar .pane--month .month-item--selected,
+.calendar .pane--year .year-item--selected {
   color: #409eff;
   font-weight: bold;
-}
-
-/* pane--year relevant */
-.calendar .pane--year .year-item {
-  display: inline-block;
-  width: 25%;
-  box-sizing: border-box;
-  color: #000;
 }
 
 .calendar .comment {

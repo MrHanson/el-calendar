@@ -8976,10 +8976,12 @@ exports.default = void 0;
 //
 //
 //
+//
+//
 // prettier-ignore
 var MONTH_ARR_CN = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']; // prettier-ignore
 
-var MONTH_ARR_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'un', 'Jul', 'Ang', 'Sep', 'Oct', 'Nov', 'Dec'];
+var MONTH_ARR_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Ang', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 function getMonthMaxDate(year, month) {
   var isGapYear = year % 4 === 0 && year % 100 !== 0 || year % 400 === 0;
@@ -9060,6 +9062,8 @@ var _default = {
     return {
       curYear: this.value.getFullYear(),
       curMonth: this.value.getMonth() + 1,
+      curYearRangeStart: Math.floor(this.value.getFullYear() / 10) * 10,
+      curYearRangeEnd: Math.floor(this.value.getFullYear() / 10) * 10 + 9,
       paneStatus: 0
       /* 0 date-pane, 1 month-pane, 2 year-pane */
       ,
@@ -9067,6 +9071,10 @@ var _default = {
     };
   },
   watch: {
+    curYear: function curYear(val) {
+      this.curYearRangeStart = Math.floor(val / 10) * 10;
+      this.curYearRangeEnd = Math.floor(val / 10) * 10 + 9;
+    },
     dotArr: {
       deep: true,
       immediate: true,
@@ -9079,17 +9087,11 @@ var _default = {
     this._updateMonthArr();
   },
   computed: {
-    yearRangeStart: function yearRangeStart() {
-      return Math.floor(this.curYear / 10) * 10;
-    },
-    yearRangeEnd: function yearRangeEnd() {
-      return Math.floor(this.curYear / 10) * 10 + 9;
-    },
     localeYearRange: function localeYearRange() {
       if (this.locale === 'cn') {
-        return "".concat(this.yearRangeStart, "\u5E74-").concat(this.yearRangeEnd, "\u5E74");
+        return "".concat(this.curYearRangeStart, "\u5E74-").concat(this.curYearRangeEnd, "\u5E74");
       } else if (this.locale === 'en') {
-        return "".concat(this.yearRangeStart, "-").concat(this.yearRangeEnd);
+        return "".concat(this.curYearRangeStart, "-").concat(this.curYearRangeEnd);
       }
     },
     localeYear: function localeYear() {
@@ -9127,7 +9129,7 @@ var _default = {
     yearArr: function yearArr() {
       var that = this;
       return new Array(10).fill().map(function (_, index) {
-        return that.yearRangeStart + index;
+        return that.curYearRangeStart + index;
       });
     },
     datePaneVisible: function datePaneVisible() {
@@ -9147,6 +9149,8 @@ var _default = {
       this.$emit('input', new Date(this.curYear, this.curMonth - 1, this.today.getDate()));
 
       this._updateMonthArr();
+
+      this.showDatePane();
     },
     toPreMonth: function toPreMonth() {
       if (this.curMonth === 1) {
@@ -9156,12 +9160,14 @@ var _default = {
         this.curMonth--;
       }
 
-      this._updateMonthArr();
-
       this.$emit('premonth', {
         year: this.curYear,
         month: this.curMonth
       });
+
+      this._updateMonthArr();
+
+      this.showDatePane();
     },
     toNextMonth: function toNextMonth() {
       if (this.curMonth === 12) {
@@ -9177,6 +9183,7 @@ var _default = {
         year: this.curYear,
         month: this.curMonth
       });
+      this.showDatePane();
     },
     toPreYear: function toPreYear() {
       this.curYear--;
@@ -9187,6 +9194,7 @@ var _default = {
         year: this.curYear,
         month: this.curMonth
       });
+      this.showDatePane();
     },
     toNextYear: function toNextYear() {
       this.curYear++;
@@ -9197,6 +9205,7 @@ var _default = {
         year: this.curYear,
         month: this.curMonth
       });
+      this.showDatePane();
     },
     toSpecificDate: function toSpecificDate(year, month, date) {
       // v0.1.2 fix bug: params of toSpecificDate must be integer
@@ -9212,6 +9221,15 @@ var _default = {
       this._updateMonthArr();
 
       this.$emit('input', new Date(intYear, intMonth - 1, intDate));
+      this.showDatePane();
+    },
+    toPreYearRange: function toPreYearRange() {
+      this.curYearRangeStart -= 10;
+      this.curYearRangeEnd -= 10;
+    },
+    toNextYearRange: function toNextYearRange() {
+      this.curYearRangeStart += 10;
+      this.curYearRangeEnd += 10;
     },
     showYearPane: function showYearPane() {
       this.paneStatus = 2;
@@ -9231,15 +9249,19 @@ var _default = {
 
       this.$emit('input', new Date(this.curYear, this.curMonth - 1, item.date));
     },
-    _handleMonthItemSelect: function _handleMonthItemSelect(item) {
-      this.curMonth = item + 1;
+    _handleMonthItemSelect: function _handleMonthItemSelect(index) {
+      this.curMonth = index + 1;
 
       this._updateMonthArr();
 
       this.showDatePane();
     },
-    _handleYearItemSelect: function _handleYearItemSelect(item) {
-      console.log(item);
+    _handleYearItemSelect: function _handleYearItemSelect(year) {
+      this.curYear = year;
+
+      this._updateMonthArr();
+
+      this.showMonthPane();
     },
     // monthFlag: 0 previous month, 1 current month, 2 next month
     _getDateArr: function _getDateArr() {
@@ -9324,6 +9346,27 @@ exports.default = _default;
     _c("div", { staticClass: "banner" }, [
       _c("div", { staticClass: "arrow-wrap arrow-wrap--left" }, [
         _c("div", {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.yearPaneVisible,
+              expression: "yearPaneVisible"
+            }
+          ],
+          staticClass: "arrow arrow--outer",
+          on: { click: _vm.toPreYearRange }
+        }),
+        _vm._v(" "),
+        _c("div", {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: !_vm.yearPaneVisible,
+              expression: "!yearPaneVisible"
+            }
+          ],
           staticClass: "arrow arrow--outer",
           on: { click: _vm.toPreYear }
         }),
@@ -9404,8 +9447,29 @@ exports.default = _default;
         }),
         _vm._v(" "),
         _c("div", {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: !_vm.yearPaneVisible,
+              expression: "!yearPaneVisible"
+            }
+          ],
           staticClass: "arrow arrow--outer",
           on: { click: _vm.toNextYear }
+        }),
+        _vm._v(" "),
+        _c("div", {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.yearPaneVisible,
+              expression: "yearPaneVisible"
+            }
+          ],
+          staticClass: "arrow arrow--outer",
+          on: { click: _vm.toNextYearRange }
         })
       ])
     ]),
@@ -9539,7 +9603,7 @@ exports.default = _default;
             staticClass: "year-item",
             class: {
               "year-item": true,
-              "year-item-selected": l === _vm.value.getFullYear()
+              "year-item--selected": year === _vm.value.getFullYear()
             },
             on: {
               click: function($event) {
@@ -9843,7 +9907,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63882" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52080" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

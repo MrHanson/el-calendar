@@ -2,7 +2,8 @@
   <div class="calendar">
     <div class="banner">
       <div class="arrow-wrap arrow-wrap--left">
-        <div class="arrow arrow--outer" @click="toPreYear"></div>
+        <div v-show="yearPaneVisible" class="arrow arrow--outer" @click="toPreYearRange"></div>
+        <div v-show="!yearPaneVisible" class="arrow arrow--outer" @click="toPreYear"></div>
         <div v-show="datePaneVisible" class="arrow arrow--inner" @click="toPreMonth"></div>
       </div>
 
@@ -12,7 +13,8 @@
       <span v-show="datePaneVisible" @click="showMonthPane">{{ localeMonth }}</span>
       <div class="arrow-wrap arrow-wrap--right">
         <div v-show="datePaneVisible" class="arrow arrow--inner" @click="toNextMonth"></div>
-        <div class="arrow arrow--outer" @click="toNextYear"></div>
+        <div v-show="!yearPaneVisible" class="arrow arrow--outer" @click="toNextYear"></div>
+        <div v-show="yearPaneVisible" class="arrow arrow--outer" @click="toNextYearRange"></div>
       </div>
     </div>
 
@@ -67,7 +69,7 @@
         class="year-item"
         v-for="(year, l) in yearArr"
         :key="'year' + l"
-        :class="{ 'year-item': true, 'year-item-selected': l === value.getFullYear() }"
+        :class="{ 'year-item': true, 'year-item--selected': year === value.getFullYear() }"
         @click="_handleYearItemSelect(year)"
       >
         {{ year }}
@@ -83,7 +85,7 @@
 // prettier-ignore
 const MONTH_ARR_CN = ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月']
 // prettier-ignore
-const MONTH_ARR_EN = ['Jan','Feb','Mar','Apr','May','un','Jul','Ang','Sep','Oct','Nov','Dec']
+const MONTH_ARR_EN = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Ang','Sep','Oct','Nov','Dec']
 
 function getMonthMaxDate(year, month) {
   const isGapYear = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0
@@ -148,12 +150,18 @@ export default {
     return {
       curYear: this.value.getFullYear(),
       curMonth: this.value.getMonth() + 1,
+      curYearRangeStart: Math.floor(this.value.getFullYear() / 10) * 10,
+      curYearRangeEnd: Math.floor(this.value.getFullYear() / 10) * 10 + 9,
       paneStatus: 0 /* 0 date-pane, 1 month-pane, 2 year-pane */,
       dateArr: []
     }
   },
 
   watch: {
+    curYear(val) {
+      this.curYearRangeStart = Math.floor(val / 10) * 10
+      this.curYearRangeEnd = Math.floor(val / 10) * 10 + 9
+    },
     dotArr: {
       deep: true,
       immediate: true,
@@ -168,17 +176,11 @@ export default {
   },
 
   computed: {
-    yearRangeStart() {
-      return Math.floor(this.curYear / 10) * 10
-    },
-    yearRangeEnd() {
-      return Math.floor(this.curYear / 10) * 10 + 9
-    },
     localeYearRange() {
       if (this.locale === 'cn') {
-        return `${this.yearRangeStart}年-${this.yearRangeEnd}年`
+        return `${this.curYearRangeStart}年-${this.curYearRangeEnd}年`
       } else if (this.locale === 'en') {
-        return `${this.yearRangeStart}-${this.yearRangeEnd}`
+        return `${this.curYearRangeStart}-${this.curYearRangeEnd}`
       }
     },
     localeYear() {
@@ -213,7 +215,7 @@ export default {
     },
     yearArr() {
       const that = this
-      return new Array(10).fill().map((_, index) => that.yearRangeStart + index)
+      return new Array(10).fill().map((_, index) => that.curYearRangeStart + index)
     },
     datePaneVisible() {
       return this.paneStatus === 0
@@ -232,6 +234,7 @@ export default {
       this.curMonth = this.today.getMonth() + 1
       this.$emit('input', new Date(this.curYear, this.curMonth - 1, this.today.getDate()))
       this._updateMonthArr()
+      this.showDatePane()
     },
     toPreMonth() {
       if (this.curMonth === 1) {
@@ -240,8 +243,9 @@ export default {
       } else {
         this.curMonth--
       }
-      this._updateMonthArr()
       this.$emit('premonth', { year: this.curYear, month: this.curMonth })
+      this._updateMonthArr()
+      this.showDatePane()
     },
     toNextMonth() {
       if (this.curMonth === 12) {
@@ -252,16 +256,19 @@ export default {
       }
       this._updateMonthArr()
       this.$emit('nextmonth', { year: this.curYear, month: this.curMonth })
+      this.showDatePane()
     },
     toPreYear() {
       this.curYear--
       this._updateMonthArr()
       this.$emit('preyear', { year: this.curYear, month: this.curMonth })
+      this.showDatePane()
     },
     toNextYear() {
       this.curYear++
       this._updateMonthArr()
       this.$emit('nextyear', { year: this.curYear, month: this.curMonth })
+      this.showDatePane()
     },
     toSpecificDate(year, month, date) {
       // v0.1.2 fix bug: params of toSpecificDate must be integer
@@ -274,6 +281,15 @@ export default {
       this.curMonth = intMonth
       this._updateMonthArr()
       this.$emit('input', new Date(intYear, intMonth - 1, intDate))
+      this.showDatePane()
+    },
+    toPreYearRange() {
+      this.curYearRangeStart -= 10
+      this.curYearRangeEnd -= 10
+    },
+    toNextYearRange() {
+      this.curYearRangeStart += 10
+      this.curYearRangeEnd += 10
     },
     showYearPane() {
       this.paneStatus = 2
@@ -292,13 +308,15 @@ export default {
       }
       this.$emit('input', new Date(this.curYear, this.curMonth - 1, item.date))
     },
-    _handleMonthItemSelect(item) {
-      this.curMonth = item + 1
+    _handleMonthItemSelect(index) {
+      this.curMonth = index + 1
       this._updateMonthArr()
       this.showDatePane()
     },
-    _handleYearItemSelect(item) {
-      console.log(item)
+    _handleYearItemSelect(year) {
+      this.curYear = year
+      this._updateMonthArr()
+      this.showMonthPane()
     },
     // monthFlag: 0 previous month, 1 current month, 2 next month
     _getDateArr(beginDate = 1, endDate = 31, monthFlag = 1) {
@@ -505,11 +523,13 @@ export default {
 }
 
 /* pane--month relevant */
-.calendar .pane--month {
+.calendar .pane--month,
+.calendar .pane--year {
   margin: 16px;
   border-top: 1px solid #e7e6e6;
 }
-.calendar .pane--month .month-item {
+.calendar .pane--month .month-item,
+.calendar .pane--year .year-item {
   display: inline-block;
   box-sizing: border-box;
   width: 25%;
@@ -519,20 +539,14 @@ export default {
   color: #000;
   cursor: pointer;
 }
-.calendar .pane--month .month-item:hover {
+.calendar .pane--month .month-item:hover,
+.calendar .pane--year .year-item:hover {
   color: #409eff;
 }
-.calendar .pane--month .month-item--selected {
+.calendar .pane--month .month-item--selected,
+.calendar .pane--year .year-item--selected {
   color: #409eff;
   font-weight: bold;
-}
-
-/* pane--year relevant */
-.calendar .pane--year .year-item {
-  display: inline-block;
-  width: 25%;
-  box-sizing: border-box;
-  color: #000;
 }
 
 .calendar .comment {
