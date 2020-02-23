@@ -7,26 +7,20 @@ export class Calendar extends Vue {
   /** today value */
   today: Date
 
-  /** week banner text */
-  weekText: Array<string>
-
-  /** banner year text */
-  bannerYearText: string
-
-  /** banner month text */
-  bannerMonthText: string
+  locale: 'cn' | 'en'
 
   /** show mark or not */
   dotArr: Array<boolean>
-
-  /** footer comment */
-  comment: string
 
   backToToday: () => void
 
   toPreMonth: () => void
 
   toNextMonth: () => void
+
+  toPreYear: () => void
+
+  toNextYear: () => void
 
   toSpecificDate: (year: number, month: number, date: number) => void
 }
