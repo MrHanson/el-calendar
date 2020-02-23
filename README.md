@@ -18,11 +18,13 @@ npm i @mrhanson/el-calendar
 yarn add @mrhanson/el-calendar
 ```
 
+## [Changelog](https://github.com/MrHanson/el-calendar/releases)
+
 ## Usage
 
 ```html
 <template>
-  <Calendar ref="calendar" v-model="selectedDate" comment="*some comment"></Calendar>
+  <Calendar ref="calendar" v-model="selectedDate"></Calendar>
 </template>
 
 <script>
@@ -42,62 +44,36 @@ yarn add @mrhanson/el-calendar
 
 ## Props
 
-### value/v-model
+| Name                      | Type           | Default      | Options                                                             | Description             |
+| ------------------------- | -------------- | ------------ | ------------------------------------------------------------------- | ----------------------- |
+| value/v-model             | Date           | `new Date()` | --                                                                  | Selected Date value     |
+| today                     | Date           | `new Date()` | --                                                                  | Used to set server time |
+| locale                    | string         | `'cn'`       | `'cn'`,`'en'`                                                       | i18n                    |
+| dotArr                    | Array<boolean> | `[]`         | show dot under date or not, Notice:length of dotArr must be same as |
+| max date of current month |
 
-- type: Date
-- default: `new Date()`
-
-Selected Date value
-
-### today
-
-- type: Date
-- default: `new Date()`
-
-### weekText
-
-- type: Array
-- default: `['日', '一', '二', '三', '四', '五', '六']`
-
-### bannerYearText
-
-- type: String
-- default: `'年'`
-
-### bannerMonthText
-
-- type: String
-- default: `'月'`
-
-### markArr
-
-show mark under date or not
-
-- type: Array<boolean>
-- default: `[]`
-
-> Notice: The length of `markArr` must be same as the value of current month's max date
-
-### comment
-
-- type: String
-- default: `''`
+''`
 
 ## Events
 
-### premonth
-
-emit when vision moves to previous month
-
-### nextmonth
-
-emit when vision moves to next month
+| Name      | Params | Description                              |
+| --------- | ------ | ---------------------------------------- |
+| premonth  |        | emit when vision moves to previous month |
+| nextmonth |        | emit when vision moves to next month     |
+| preyear   |        | emit when vision moves to previous year  |
+| nextyear  |        | emit when vision moves to next year      |
 
 ## Methods
 
-| Methods                           | Params                                          | Description                              |
-| --------------------------------- | ----------------------------------------------- | ---------------------------------------- |
-| backToToday()                     |                                                 | set value & month visision back to today |
-| toPreMonth()                      |                                                 | set vision to previous month             |
-| toNextMonth()                     |                                                 | set vision to previous month             |
-| toSpecificDate(year, month, date) | year: `number`, month: `number`, date: `number` |                                          |
+| Methods                           | Params                                          | Description                         |
+| --------------------------------- | ----------------------------------------------- | ----------------------------------- |
+| backToToday()                     |                                                 | set value & vision back to today    |
+| toPreMonth()                      |                                                 | set vision to previous month        |
+| toNextMonth()                     |                                                 | set vision to previous month        |
+| toSpecificDate(year, month, date) | year: `number`, month: `number`, date: `number` | set value & vision to specific date |
+
+## Slots
+
+| name    | Description                             |
+| ------- | --------------------------------------- |
+| comment | Used to add some comment under calendar |

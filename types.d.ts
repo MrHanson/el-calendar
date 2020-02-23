@@ -17,7 +17,7 @@ export class Calendar extends Vue {
   bannerMonthText: string
 
   /** show mark or not */
-  markArr: Array<boolean>
+  dotArr: Array<boolean>
 
   /** footer comment */
   comment: string
