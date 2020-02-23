@@ -6,7 +6,9 @@ element-ui style calendar widget, typescript friendly
 
 ![demonstration](./demonstration.PNG)
 
-## [Try it](https://mrhanson.github.io/el-calendar/)
+## Live Demo
+
+https://mrhanson.github.io/el-calendar/
 
 ## Install
 
