@@ -75,9 +75,10 @@
         {{ year }}
       </div>
     </div>
-    <div class="comment">
-      <slot name="comment"></slot>
-    </div>
+
+    <slot name="comment">
+      <div class="comment"></div>
+    </slot>
   </div>
 </template>
 
@@ -120,10 +121,6 @@ export default {
   name: 'Calendar',
 
   props: {
-    multiple: {
-      type: Boolean,
-      default: false
-    },
     value: {
       type: Date,
       default: () => new Date()
