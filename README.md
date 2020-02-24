@@ -46,24 +46,23 @@ yarn add @mrhanson/el-calendar
 
 ## Props
 
-| Name                      | Type           | Default      | Options                                                             | Description             |
-| ------------------------- | -------------- | ------------ | ------------------------------------------------------------------- | ----------------------- |
-| value/v-model             | Date           | `new Date()` | --                                                                  | Selected Date value     |
-| today                     | Date           | `new Date()` | --                                                                  | Used to set server time |
-| locale                    | string         | `'cn'`       | `'cn'`,`'en'`                                                       | i18n                    |
-| dotArr                    | Array<boolean> | `[]`         | show dot under date or not, Notice:length of dotArr must be same as |
-| max date of current month |
+| Name          | Type           | Default      | Options       | Description                                                                                   |
+| ------------- | -------------- | ------------ | ------------- | --------------------------------------------------------------------------------------------- |
+| value/v-model | Date           | `new Date()` | --            | Selected Date value                                                                           |
+| today         | Date           | `new Date()` | --            | Used to set server time                                                                       |
+| locale        | string         | `'cn'`       | `'cn'`,`'en'` | i18n                                                                                          |
+| dotArr        | Array<boolean> | `[]`         |               | show dot under date or not, Notice:length of dotArr must be same as max date of current month |
 
 ''`
 
 ## Events
 
-| Name      | Params | Description                              |
-| --------- | ------ | ---------------------------------------- |
-| premonth  |        | emit when vision moves to previous month |
-| nextmonth |        | emit when vision moves to next month     |
-| preyear   |        | emit when vision moves to previous year  |
-| nextyear  |        | emit when vision moves to next year      |
+| Name      | Params      | Description                              |
+| --------- | ----------- | ---------------------------------------- |
+| premonth  | year, month | emit when vision moves to previous month |
+| nextmonth | year, month | emit when vision moves to next month     |
+| preyear   | year, month | emit when vision moves to previous year  |
+| nextyear  | year, month | emit when vision moves to next year      |
 
 ## Methods
 
