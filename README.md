@@ -2,7 +2,8 @@
 
 element-ui style calendar widget, typescript friendly
 
-[![npm](https://img.shields.io/npm/v/@mrhanson/el-calendar.svg)](https://www.npmjs.com/package/@mrhanson/el-calendar) [![npm bundle size](https://img.shields.io/bundlephobia/min/@mrhanson/el-calendar?style=plastic)](https://www.npmjs.com/package/@mrhanson/el-calendar) [![npm](https://img.shields.io/npm/l/@mrhanson/el-calendar.svg)](https://www.npmjs.com/package/@mrhanson/el-calendar)
+[![npm](https://img.shields.io/npm/v/@mrhanson/el-calendar.svg)](https://www.npmjs.com/package/@mrhanson/el-calendar)
+[![npm](https://img.shields.io/npm/l/@mrhanson/el-calendar.svg)](https://www.npmjs.com/package/@mrhanson/el-calendar)
 
 ![demonstration](./demonstration.PNG)
 
@@ -26,21 +27,21 @@ yarn add @mrhanson/el-calendar
 
 ```html
 <template>
-  <Calendar ref="calendar" v-model="selectedDate"></Calendar>
+	<Calendar ref="calendar" v-model="selectedDate"></Calendar>
 </template>
 
 <script>
-  import Calendar from '@mrhanson/el-calendar'
+	import Calendar from '@mrhanson/el-calendar'
 
-  export default {
-    components: { Calendar }
+	export default {
+	  components: { Calendar }
 
-    data() {
-      return {
-        selectedDate: new Date()
-      }
-    }
-  }
+	  data() {
+	    return {
+	      selectedDate: new Date()
+	    }
+	  }
+	}
 </script>
 ```
 
@@ -52,8 +53,6 @@ yarn add @mrhanson/el-calendar
 | today         | Date           | `new Date()` | --            | Used to set server time                                                                       |
 | locale        | string         | `'cn'`       | `'cn'`,`'en'` | i18n                                                                                          |
 | dotArr        | Array<boolean> | `[]`         |               | show dot under date or not, Notice:length of dotArr must be same as max date of current month |
-
-''`
 
 ## Events
 
